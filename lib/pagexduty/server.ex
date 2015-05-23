@@ -1,9 +1,9 @@
-defmodule Pagexduty.Server do 
-	use GenServer
+defmodule Pagexduty.Server do
+  use GenServer
 
-	def start_link(service_key) do
-		GenServer.start_link(__MODULE__, service_key, name: __MODULE__)
-	end
+  def start_link(service_key) do
+    GenServer.start_link(__MODULE__, service_key, name: __MODULE__)
+  end
 
   def trigger(description, details \\ %{}) do
     incident = %{description: description, details: details}
@@ -15,12 +15,11 @@ defmodule Pagexduty.Server do
     enServer.call __MODULE__, {:trigger, incident}
   end
 
-	def handle_call({:trigger, incident}, _from, service_key) do 
-		# call to pagerduty api
-    event_params = Map.put(incident, "service_key", service_key)    
+  def handle_call({:trigger, incident}, _from, service_key) do
+    event_params = Map.put(incident, "service_key", service_key)
     response = create_event(event_params)
     { :reply, response, service_key }
-	end
+  end
 
   def create_event(params) do
     url = "https://events.pagerduty.com/generic/2010-04-15/create_event.json"
@@ -43,5 +42,5 @@ defmodule Pagexduty.Server do
 
   defp encode_json(params) do
     JSX.encode!(params)
-  end  
+  end
 end
