@@ -23,9 +23,9 @@ defmodule Pagexduty.Server do
 
   def create_event(params) do
     url = "https://events.pagerduty.com/generic/2010-04-15/create_event.json"
-    json = encode_json(params)
+    json = json_encode(params)
     response = post(url, json, Map.merge(default_headers))
-    body_response = decode_json(response.body)
+    body_response = json_decode(response.body)
   end
 
   defp post(url, service_key, params) do
@@ -36,11 +36,11 @@ defmodule Pagexduty.Server do
     %{"Content-type" => "application/json"}
   end
 
-  defp decode_json(body) do
+  defp json_decode(body) do
     JSX.decode!(body)
   end
 
-  defp encode_json(params) do
+  defp json_encode(params) do
     JSX.encode!(params)
   end
 end
