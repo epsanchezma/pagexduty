@@ -12,7 +12,7 @@ defmodule Pagexduty.Server do
 
   def trigger(description, incident_key, details \\ %{}) do
     incident = %{description: description, details: details, incident_key: incident_key}
-    enServer.call __MODULE__, {:trigger, incident}
+    GenServer.call __MODULE__, {:trigger, incident}
   end
 
   def handle_call({:trigger, incident}, _from, service_key) do
