@@ -14,7 +14,7 @@ defmodule Pagexduty.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger],
+    [applications: [:logger, :httpoison],
      mod: {Pagexduty, []}]
   end
 
@@ -28,6 +28,8 @@ defmodule Pagexduty.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [{:httpoison, "~> 0.6"},
+     {:exjsx, "~> 3.1.0", app: false},
+     {:mock, "~> 0.1.1", only: :test}]
   end
 end
