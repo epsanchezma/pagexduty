@@ -5,13 +5,23 @@ defmodule Pagexduty.Server do
     GenServer.start_link(__MODULE__, service_key, name: __MODULE__)
   end
 
-  def trigger(description, details \\ %{}) do
+  def trigger(description) do
+    incident = %{description: description}
+    GenServer.call __MODULE__, {:trigger, incident}
+  end
+
+  def trigger(description, details) when is_map(details) do
     incident = %{description: description, details: details}
     GenServer.call __MODULE__, {:trigger, incident}
   end
 
-  def trigger(description, incident_key, details \\ %{}) do
-    incident = %{description: description, details: details, incident_key: incident_key}
+  def trigger(description, incident_key) when is_binary(incident_key) do
+    incident = %{description: description, incident_key: incident_key}
+    GenServer.call __MODULE__, {:trigger, incident}
+  end
+
+  def trigger(description, incident_key, details) do
+    incident = %{description: description, incident_key: incident_key, details: details}
     GenServer.call __MODULE__, {:trigger, incident}
   end
 
@@ -24,12 +34,12 @@ defmodule Pagexduty.Server do
   def create_event(params) do
     url = "https://events.pagerduty.com/generic/2010-04-15/create_event.json"
     json = json_encode(params)
-    response = post(url, json, Map.merge(default_headers))
-    body_response = json_decode(response.body)
+    response = post(url, json, default_headers)
+    json_decode(response.body)
   end
 
-  defp post(url, service_key, params) do
-    HTTPoison.post!(url, params)
+  defp post(url, body, headers) do
+    HTTPoison.post!(url, body, headers)
   end
 
   defp default_headers do
