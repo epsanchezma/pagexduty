@@ -1,6 +1,5 @@
 defmodule PagexdutyTest do
   use ExUnit.Case, async: false
-  alias Pagexduty.Server
 
   import Mock
 
@@ -10,11 +9,13 @@ defmodule PagexdutyTest do
 
   test "create_event creates a incident" do
 
+  	Pagexduty.Server.start_link("service_key")
     response = %MockResponse{body: ~s({"status":"success","message":"Event processed","incident_key":"srv01/HTTP"})}
-    with_mock HTTPoison, [post!: fn(_url, _service_key, _params) -> response end] do
-      response = Server.create_event(~s({"e93facc04764012d7bfb002500d5d1a6","srv01/HTTP","trigger","FAILURE","details"}))
+    with_mock HTTPoison, [post!: fn(_url, _body, _headers) -> response end] do
+      response = Pagexduty.Server.trigger("My test incident", "srv01/HTTP", %{"detail" => "something"})
 
-      assert response.status == "success"   
+      assert response["status"] == "success"
+      assert response["incident_key"] == "srv01/HTTP"
    	 end
   end
 end

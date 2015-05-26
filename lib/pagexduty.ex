@@ -8,7 +8,7 @@ defmodule Pagexduty do
 
     children = [
       # Define workers and child supervisors to be supervised
-      worker(Pagexduty.Server, ["service_key"])
+      worker(Pagexduty.Server, ["b842e0e524844926aa697ef964374d0c"])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

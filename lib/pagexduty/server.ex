@@ -26,7 +26,7 @@ defmodule Pagexduty.Server do
   end
 
   def handle_call({:trigger, incident}, _from, service_key) do
-    event_params = Map.put(incident, "service_key", service_key)
+    event_params = Map.merge(incident, %{"service_key" => service_key, "event_type" => "trigger"})
     response = create_event(event_params)
     { :reply, response, service_key }
   end
