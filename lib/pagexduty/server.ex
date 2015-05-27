@@ -26,20 +26,23 @@ defmodule Pagexduty.Server do
   end
 
   def handle_call({:trigger, incident}, _from, service_key) do
-    event_params = Map.merge(incident, %{"service_key" => service_key, "event_type" => "trigger"})
-    response = create_event(event_params)
-    { :reply, response, service_key }
+    response = create_event(incident, service_key)
+    {:reply, response, service_key}
   end
 
-  def create_event(params) do
-    url = "https://events.pagerduty.com/generic/2010-04-15/create_event.json"
+  def create_event(event_params, service_key) do
+    params = Map.merge(event_params, %{"service_key" => service_key, "event_type" => "trigger"})
     json = json_encode(params)
-    response = post(url, json, default_headers)
+    response = post(create_event_url, json, default_headers)
     json_decode(response.body)
   end
 
   defp post(url, body, headers) do
     HTTPoison.post!(url, body, headers)
+  end
+
+  defp create_event_url do
+    "https://events.pagerduty.com/generic/2010-04-15/create_event.json"
   end
 
   defp default_headers do
