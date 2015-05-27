@@ -6,9 +6,11 @@ defmodule Pagexduty do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
+    service_key = Application.get_env(:pagerduty, :service_key) || System.get_env("PAGERDUTY_SERVICE_KEY")
+
     children = [
       # Define workers and child supervisors to be supervised
-      worker(Pagexduty.Server, ["b842e0e524844926aa697ef964374d0c"])
+      worker(Pagexduty.Server, [service_key])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
