@@ -27,7 +27,7 @@ Pagexduty.Server.trigger("An error occurred", "srv01/HTTP", %{"detail" => "somet
 
 ## License
 
-exlug is copyright (c) 2015 Ride Group Inc and contributors.
+pagexduty is copyright (c) 2015 Ride Group Inc and contributors.
 
 The source code is released under the MIT License.
 
