@@ -1,25 +1,25 @@
 Pagexduty
 =========
 
-Pagerduty client for Elixir. 
+PagerDuty client for Elixir. 
 
 ## Examples
 
 ```elixir
 
-#Creates an incident only with param: description
+# Create an incident only with a description
 
 Pagexduty.Server.trigger("Something is not right")
 
-#Creates an incident with params: description, details
+# Create an incident with a description and details
 
 Pagexduty.Server.trigger("You know nothing, Server Snow", %{"detail" => "something"})
 
-#Creates an incident with params: description, incident_key
+# Create an incident with a description and incident_key
 
 Pagexduty.Server.trigger("An error occurred", "srv01/HTTP")
 
-#Creates an incident with params: description, incident_key, details
+# Create a incident with a description, incident_key and details
 
 Pagexduty.Server.trigger("An error occurred", "srv01/HTTP", %{"detail" => "something"})
 
