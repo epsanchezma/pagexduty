@@ -3,6 +3,31 @@ Pagexduty
 
 PagerDuty client for Elixir. 
 
+## Installing
+
+Add pagexduty as a dependency to your project:
+
+```elixir
+  defp deps do
+    [{:pagexduty, "~> 0.1.0"}]
+  end
+```
+
+And add pagexduty to applications list:
+
+```elixir
+  def application do
+    [applications: [:pagexduty]]
+  end
+```
+
+Finally fetch and compile dependency:
+
+```
+mix deps.get
+mix deps.compile
+```
+
 ## Examples
 
 ```elixir
